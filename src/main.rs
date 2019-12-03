@@ -4,7 +4,10 @@ use structopt::StructOpt;
 
 fn main() {
 	let args = Cli::from_args();
-	let input_file = args.input.to_str();
-	let output_file = args.output.to_str();
-	println!("{:?}", args)
+	let result = std::fs::read_to_string(args.input);
+	let content = match result {
+	    Ok(content) => { content },
+	    Err(error) => { panic!("Can't deal with {}, just exit here", error); }
+	};
+	println!("{}", content);
 } 
