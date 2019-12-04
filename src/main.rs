@@ -4,10 +4,10 @@ use structopt::StructOpt;
 
 fn main() {
 	let args = Cli::from_args();
-	let result = std::fs::read_to_string(args.input);
-	let content = match result {
-	    Ok(content) => { content },
-	    Err(error) => { panic!("Can't deal with {}, just exit here", error); }
-	};
+	parse(args.input);
+}
+
+fn parse(input_file:std::path::PathBuf) {
+	let content = std::fs::read_to_string(input_file).expect("could not read file");
 	println!("{}", content);
-} 
+}
