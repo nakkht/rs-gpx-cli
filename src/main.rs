@@ -6,7 +6,7 @@ use std::fs::*;
 
 fn main() {
 	let args = Cli::from_args();
-	parse(args.file_path);
+	parse(args.input);
 }
 
 fn parse(input_file: PathBuf) {
