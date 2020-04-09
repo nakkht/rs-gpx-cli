@@ -10,10 +10,6 @@ rust:
   - beta
   - nightly
 
-branches:
-  - develop
-  - master
-
 cache: cargo
 
 jobs:
@@ -23,3 +19,4 @@ jobs:
 
 script:
   - cargo build --verbose
+  - cargo test --verbose
