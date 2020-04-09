@@ -1,18 +1,25 @@
+language: rust
 os:
   - linux
   - osx
   - windows
-language: rust
+dist: xenial
+
 rust:
   - stable
   - beta
   - nightly
 
+branches:
+  - develop
+  - master
+
+cache: cargo
+
 jobs:
   allow_failures:
     - rust: nightly
   fast_finish: true
-  cache: cargo
-  script:
-    - cargo build --verbose --all
-    - cargo test --verbose --all
+
+script:
+  - cargo build --verbose
