@@ -1,9 +1,9 @@
 [package]
-name = "rust-gpx"
+name = "rust-gpx-cli"
 version = "0.1.0"
 authors = ["Paulius Gudonis <pg@neqsoft.com>"]
 readme = "README.md"
-repository = "https://github.com/nakkht/rust-gpx"
+repository = "https://github.com/nakkht/rust-gpx-cli"
 license = "MIT"
 edition = "2018"
 

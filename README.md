@@ -7,4 +7,4 @@ CLI tool for generating and manipulating gpx files
 * [Paulius Gudonis](https://pgu.dev)
 
 ## Licence
-This repository is under the [MIT license](https://github.com/nakkht/rust-gpx/blob/master/LICENSE).
+This repository is under the [MIT license](https://github.com/nakkht/rust-gpx-cli/blob/master/LICENSE).
