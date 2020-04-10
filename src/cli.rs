@@ -8,8 +8,8 @@ pub struct Cli {
 	pub input: PathBuf,
 	
 	#[structopt(parse(from_os_str), short)]
-	pub output: PathBuf,
+	pub output: Option<PathBuf>,
 
 	#[structopt(long)]
-	pub speed: u32
+	pub speed: Option<u32>
 }
