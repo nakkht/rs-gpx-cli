@@ -2,16 +2,17 @@ use std::path::PathBuf;
 use std::fs::*;
 use quick_xml::Reader;
 use quick_xml::events::*;
+use std::str::*;
 
 const WPT_TAG: &[u8] = "wpt".as_bytes();
 const TRK_TAG: &[u8] = "trk".as_bytes();
 const LAT_TAG: &[u8] = "lat".as_bytes();
 const LON_TAG: &[u8] = "lon".as_bytes();
 
-pub fn process(input_file: PathBuf) {
+pub fn process(input_file: PathBuf) -> Vec<(f32, f32)> {
 	let content = read_to_string(input_file).expect("could not read file");
 	let mut reader = load(&content);
-  replace(&mut reader);
+  return get_timestamps(&mut reader);
 }
 
 fn load<'a>(xml: &'a String) -> Reader<&'a [u8]> {
@@ -20,28 +21,41 @@ fn load<'a>(xml: &'a String) -> Reader<&'a [u8]> {
   return reader;
 }
 
-fn replace<'a>(reader: &mut Reader<&'a [u8]>) {
+fn get_timestamps<'a>(reader: &mut Reader<&'a [u8]>) -> Vec<(f32, f32)> {
   let mut buffer = Vec::new();
+  let mut time_stamps = Vec::new();
   loop {
     match reader.read_event(&mut buffer) {
-      Ok(Event::Start(ref element)) => match_tags(element),
+      Ok(Event::Start(ref element)) => {
+        if let Some (coordinates) = extract_coordinates(element) {
+          time_stamps.push(coordinates);
+        }
+      },
       Ok(Event::Eof) => break,
       Err(error) => panic!("error at at position {}: {:?}",  reader.buffer_position(), error),
       _ => ()
     }
   }
+  return time_stamps;
 }
 
-fn match_tags(element: &BytesStart) {
+fn extract_coordinates(element: &BytesStart) -> Option<(f32, f32)> {
   match element.name() {
     WPT_TAG | TRK_TAG => {
-      let values = element.attributes().find(|e| 
+      let latitude = element.attributes().find(|e| 
         match e {
-          Ok(attribute) => attribute.key == LAT_TAG || attribute.key == LON_TAG,
-          Err(_) => false,
+          Ok(attribute) => attribute.key == LAT_TAG,
+          _ => false,
         }).unwrap();
-      println!("{:?}", values);
+      let longitude = element.attributes().find(|e| 
+        match e {
+          Ok(attribute) => attribute.key == LON_TAG,
+          _ => false,
+        }).unwrap();
+      let lat_float = f32::from_str(from_utf8(&latitude.unwrap().value.into_owned()).unwrap());
+      let long_float = f32::from_str(from_utf8(&longitude.unwrap().value.into_owned()).unwrap());
+      return Some((lat_float.unwrap(), long_float.unwrap()))
     },
-    _ => ()
+    _ => None
   }
 }
