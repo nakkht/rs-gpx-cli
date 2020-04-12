@@ -2,17 +2,23 @@ mod cli;
 mod parser;
 use cli::Cli;
 use structopt::StructOpt;
+use chrono::prelude::*;
+use chrono::{Duration, Utc};
 
 const EARTH_RADIUS_IN_METERS: f32 = 6_371_000.0;
 
 fn main() {
 	let args = Cli::from_args();
-	let time_stamps = parser::process(args.input);
-  for (index, element) in time_stamps.iter().enumerate() {
-    if index + 1 >= time_stamps.len() { break; }
-    let distance = distance_in_meters(element, &time_stamps[index + 1]);
-    println!("{}", distance);
+	let coordinates = parser::process(args.input);
+  let mut distances = Vec::with_capacity(coordinates.len() - 1);
+  for (index, element) in coordinates.iter().enumerate() {
+    if index + 1 >= coordinates.len() { break; }
+    let distance = distance_in_meters(element, &coordinates[index + 1]);
+    distances.push(distance);
   }
+  let speed_in_mps = (0.277778 * args.speed).round() as u32;
+  let time_stamps = generate_timestamps(distances, speed_in_mps);
+  println!("{:?}", time_stamps);
 }
 
 fn distance_in_meters(point1: &(f32, f32), point2: &(f32, f32)) -> u32 {
@@ -26,4 +32,15 @@ fn distance_in_meters(point1: &(f32, f32), point2: &(f32, f32)) -> u32 {
   let distance = f32::atan2(f32::sqrt(a), f32::sqrt(1.0-a)) * 2.0;
 
   return (distance * EARTH_RADIUS_IN_METERS) as u32;
+}
+
+fn generate_timestamps(distances: Vec<u32>, speed: u32) -> Vec<DateTime<Utc>> {
+  let mut time_stamps = Vec::with_capacity(distances.len() + 1);
+  time_stamps.push(Utc::now());
+  for (index, distance) in distances.iter().enumerate() {
+    let time = distance / speed;
+    let new_time = time_stamps[index] + Duration::seconds(time as i64);
+    time_stamps.push(new_time);
+  }
+  return time_stamps
 }

@@ -1,8 +1,8 @@
 use std::path::PathBuf;
-use std::fs::*;
+use std::fs::read_to_string;
 use quick_xml::Reader;
-use quick_xml::events::*;
-use std::str::*;
+use quick_xml::events::{Event, BytesStart};
+use std::str::{from_utf8, FromStr};
 
 const WPT_TAG: &[u8] = "wpt".as_bytes();
 const TRK_TAG: &[u8] = "trk".as_bytes();
@@ -12,7 +12,7 @@ const LON_TAG: &[u8] = "lon".as_bytes();
 pub fn process(input_file: PathBuf) -> Vec<(f32, f32)> {
 	let content = read_to_string(input_file).expect("could not read file");
 	let mut reader = load(&content);
-  return get_timestamps(&mut reader);
+  return get_coordinates(&mut reader);
 }
 
 fn load<'a>(xml: &'a String) -> Reader<&'a [u8]> {
@@ -21,14 +21,14 @@ fn load<'a>(xml: &'a String) -> Reader<&'a [u8]> {
   return reader;
 }
 
-fn get_timestamps<'a>(reader: &mut Reader<&'a [u8]>) -> Vec<(f32, f32)> {
+fn get_coordinates<'a>(reader: &mut Reader<&'a [u8]>) -> Vec<(f32, f32)> {
   let mut buffer = Vec::new();
-  let mut time_stamps = Vec::new();
+  let mut coordinates = Vec::new();
   loop {
     match reader.read_event(&mut buffer) {
       Ok(Event::Start(ref element)) => {
-        if let Some (coordinates) = extract_coordinates(element) {
-          time_stamps.push(coordinates);
+        if let Some (lat_long) = extract_coordinates(element) {
+          coordinates.push(lat_long);
         }
       },
       Ok(Event::Eof) => break,
@@ -36,7 +36,7 @@ fn get_timestamps<'a>(reader: &mut Reader<&'a [u8]>) -> Vec<(f32, f32)> {
       _ => ()
     }
   }
-  return time_stamps;
+  return coordinates;
 }
 
 fn extract_coordinates(element: &BytesStart) -> Option<(f32, f32)> {
