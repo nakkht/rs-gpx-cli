@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::fs::{read_to_string, File};
 use quick_xml::{Reader, Writer};
-use quick_xml::events::{Event, BytesStart, BytesText};
+use quick_xml::events::{Event, BytesStart, BytesText, BytesEnd, BytesDecl};
 use std::str::{from_utf8, FromStr};
 use std::io::Cursor;
 use std::collections::VecDeque;
@@ -75,16 +75,23 @@ pub fn write(time_stamps: &mut VecDeque<DateTime<Utc>>, source: &PathBuf, destin
   let mut buffer = Vec::new();
   loop {
     match reader.read_event(&mut buffer) {
-      Ok(Event::Start(ref element)) => {
+      Ok(Event::Decl(element)) => {
+        assert!(writer.write_event(Event::Decl(BytesDecl::into_owned(element))).is_ok());
+      }
+      Ok(Event::Start(element)) => {
+        assert!(writer.write_event(Event::Start(BytesStart::borrowed(&element, element.name().len()))).is_ok());
         match element.name() {
           WPT_TAG | TRK_TAG => {
             let value =  time_stamps.pop_front().unwrap();
-            let new_tag = format!("<time>{}</time>", value);
-            let value = BytesText::from_plain_str(&new_tag);
+            let new_tag = format!("<time>{:?}</time>", value);
+            let value = BytesText::from_escaped_str(&new_tag);
             assert!(writer.write_event(Event::Text(value)).is_ok());
           },
           _ => ()
         }
+      },
+      Ok(Event::End(element)) => {
+        assert!(writer.write_event(Event::End(BytesEnd::borrowed(&element))).is_ok());
       },
       Ok(Event::Eof) => break,
       Err(error) => panic!("error at at position {}: {:?}",  reader.buffer_position(), error),
