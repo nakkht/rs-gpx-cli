@@ -23,4 +23,4 @@ jobs:
 
 script:
   - cargo build --verbose
-  - cargo build --verbose
+  - cargo test --verbose
