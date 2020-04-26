@@ -1,26 +1,41 @@
 language: rust
 os:
-  - linux
-  - osx
+  # - linux
+  # - osx
   - windows
 dist: xenial
 
 rust:
   - stable
-  - beta
-  - nightly
+  # - beta
+  # - nightly
 
-branches:
-  - develop
-  - master
+# branches:
+#   - develop
+#   - master
 
 cache: cargo
-
-jobs:
-  allow_failures:
-    - rust: nightly
-  fast_finish: true
 
 script:
   - cargo build --verbose
   - cargo test --verbose
+
+jobs:
+  include:
+    - name: Deploy windows binaries
+      script:
+        - cargo build --release --verbose
+      deploy:
+        provider: releases
+        token: $GH_TOKEN
+        skip_cleanup: true
+        draft: true
+        on:
+          tags: false
+          branch: windows-binaries
+          condition: "$TRAVIS_RUST_VERSION = stable"
+        file: target/release/rust-gpx-cli.exe
+
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
