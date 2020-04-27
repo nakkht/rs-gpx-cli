@@ -22,7 +22,8 @@ script:
 
 jobs:
   include:
-    - name: Deploy windows binaries
+    - name: Windows binaries
+      os: windows
       script:
         - cargo build --release --verbose
       deploy:
@@ -30,11 +31,37 @@ jobs:
         token: $GH_TOKEN
         skip_cleanup: true
         draft: true
+        overwrite: true
         on:
           tags: false
           branch: windows-binaries
           condition: "$TRAVIS_RUST_VERSION = stable"
         file: target/release/rust-gpx-cli.exe
+
+    - name: Linux binaries
+      os: linux
+      dist: xenial
+      addons:
+        apt:
+          packages:
+            - musl-tools
+      env: TARGET=x86_64-unknown-linux-musl
+      before_script: rustup target add $TARGET
+      script:
+        - cargo build --release --target $TARGET --verbose
+      before_deploy:
+        - tar czvf rust-gpx-cli.tar.gz target/$TARGET/release/rust-gpx-cli
+      deploy:
+        provider: releases
+        token: $GH_TOKEN
+        skip_cleanup: true
+        draft: true
+        overwrite: true
+        on:
+          tags: false
+          branch: windows-binaries
+          condition: "$TRAVIS_RUST_VERSION = stable"
+        file: rust-gpx-cli.tar.gz
 
   allow_failures:
     - rust: nightly
