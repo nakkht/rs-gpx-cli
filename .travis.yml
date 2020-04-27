@@ -1,18 +1,18 @@
 language: rust
 os:
-  # - linux
-  # - osx
+  - linux
+  - osx
   - windows
 dist: xenial
 
 rust:
   - stable
-  # - beta
-  # - nightly
+  - beta
+  - nightly
 
-# branches:
-#   - develop
-#   - master
+branches:
+  - develop
+  - master
 
 cache: cargo
 
@@ -20,26 +20,31 @@ script:
   - cargo build --verbose
   - cargo test --verbose
 
+_deploy_definition: &deploy_definition
+  provider: releases
+  token: $GH_TOKEN
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+  on:
+    tags: true
+    branch: master
+    condition: "$TRAVIS_RUST_VERSION = stable"
+
 jobs:
   include:
     - name: Windows binaries
       os: windows
+      rust: stable
       script:
         - cargo build --release --verbose
       deploy:
-        provider: releases
-        token: $GH_TOKEN
-        skip_cleanup: true
-        draft: true
-        overwrite: true
-        on:
-          tags: false
-          branch: windows-binaries
-          condition: "$TRAVIS_RUST_VERSION = stable"
+        <<: *deploy_definition
         file: target/release/rust-gpx-cli.exe
 
     - name: Linux binaries
       os: linux
+      rust: stable
       dist: xenial
       addons:
         apt:
@@ -52,16 +57,17 @@ jobs:
       before_deploy:
         - tar czvf rust-gpx-cli.tar.gz target/$TARGET/release/rust-gpx-cli
       deploy:
-        provider: releases
-        token: $GH_TOKEN
-        skip_cleanup: true
-        draft: true
-        overwrite: true
-        on:
-          tags: false
-          branch: windows-binaries
-          condition: "$TRAVIS_RUST_VERSION = stable"
+        <<: *deploy_definition
         file: rust-gpx-cli.tar.gz
+
+    - name: macOS binaries
+      env: MACOSX_DEPLOYMENT_TARGET=10.7 TARGET=x86_64-apple-darwin
+      os: osx
+      rust: stable
+      script: cargo build --release --target $TARGET --verbose
+      deploy:
+        <<: *deploy_definition
+        file: target/x86_64-apple-darwin/release/rust-gpx-cli
 
   allow_failures:
     - rust: nightly
