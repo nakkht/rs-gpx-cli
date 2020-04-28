@@ -29,13 +29,11 @@ _deploy_definition: &deploy_definition
   overwrite: true
   on:
     tags: true
-    branch: master
     condition: "$TRAVIS_RUST_VERSION = stable"
 
 jobs:
   include:
     - name: Windows binaries
-      if: branch = master
       os: windows
       rust: stable
       script: cargo build --release --verbose
@@ -44,7 +42,6 @@ jobs:
         file: target/release/rust-gpx-cli.exe
 
     - name: Linux binaries
-      if: branch = master
       os: linux
       rust: stable
       dist: xenial
@@ -62,7 +59,6 @@ jobs:
         file: rust-gpx-cli.tar.gz
 
     - name: macOS binaries
-      if: branch = master
       env: MACOSX_DEPLOYMENT_TARGET=10.7 TARGET=x86_64-apple-darwin
       os: osx
       rust: stable
