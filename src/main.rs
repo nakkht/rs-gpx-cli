@@ -9,8 +9,8 @@ use std::collections::VecDeque;
 const EARTH_RADIUS_IN_METERS: f32 = 6_371_000.0;
 
 fn main() {
-	let args = Cli::from_args();
-	let coordinates = parser::process(&args.input);
+  let args = Cli::from_args();
+  let coordinates = parser::process(&args.input);
   let mut distances = Vec::with_capacity(coordinates.len() - 1);
   for (index, element) in coordinates.iter().enumerate() {
     if index + 1 >= coordinates.len() { break; }
