@@ -12,7 +12,7 @@ pub struct Cli {
   #[structopt(parse(from_os_str), short = "o")]
   pub output: Option<PathBuf>,
 
-  /// Constant spped of waypoints in km/h
+  /// Constant speed of waypoints in km/h
   #[structopt(short = "s")]
   pub speed: f32
 }
