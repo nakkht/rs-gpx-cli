@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="GPS Visualizer Sandbox https://www.gpsvisualizer.com/draw/" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
-	<wpt lat="55.7449595" lon="25.8433789"><time>2020-11-30T22:15:16Z</time></wpt>
-	<wpt lat="55.7446817" lon="25.8427781"><time>2020-11-30T22:15:20Z</time></wpt>
-	<wpt lat="55.7444039" lon="25.8421183"><time>2020-11-30T22:15:24Z</time></wpt>
-	<wpt lat="55.7439993" lon="25.8411473"><time>2020-11-30T22:15:30Z</time></wpt>
-	<wpt lat="55.7437939" lon="25.840627"><time>2020-11-30T22:15:33Z</time></wpt>
-	<wpt lat="55.7441049" lon="25.8396775"><time>2020-11-30T22:15:39Z</time></wpt>
-	<wpt lat="55.7445216" lon="25.8386421"><time>2020-11-30T22:15:46Z</time></wpt>
-	<wpt lat="55.7448236" lon="25.8378643"><time>2020-11-30T22:15:51Z</time></wpt>
+	<wpt lat="55.7449595" lon="25.8433789"><time>2000-01-01T00:00:00Z</time></wpt>
+	<wpt lat="55.7446817" lon="25.8427781"><time>2000-01-01T00:00:04Z</time></wpt>
+	<wpt lat="55.7444039" lon="25.8421183"><time>2000-01-01T00:00:08Z</time></wpt>
+	<wpt lat="55.7439993" lon="25.8411473"><time>2000-01-01T00:00:14Z</time></wpt>
+	<wpt lat="55.7437939" lon="25.840627"><time>2000-01-01T00:00:17Z</time></wpt>
+	<wpt lat="55.7441049" lon="25.8396775"><time>2000-01-01T00:00:23Z</time></wpt>
+	<wpt lat="55.7445216" lon="25.8386421"><time>2000-01-01T00:00:30Z</time></wpt>
+	<wpt lat="55.7448236" lon="25.8378643"><time>2000-01-01T00:00:35Z</time></wpt>
 </gpx>

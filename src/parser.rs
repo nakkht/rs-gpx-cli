@@ -52,7 +52,7 @@ fn distance_in_meters(point1: &(f32, f32), point2: &(f32, f32)) -> u32 {
 
 fn generate_timestamps(distances: Vec<u32>, speed: u32) -> VecDeque<DateTime<Utc>> {
   let mut time_stamps = VecDeque::with_capacity(distances.len() + 1);
-  time_stamps.push_back(Utc::now());
+  time_stamps.push_back(Utc.ymd(2000, 1, 1).and_hms(0, 0, 0));
   for (index, distance) in distances.iter().enumerate() {
     let time = distance / speed;
     let new_time = time_stamps[index] + Duration::seconds(time as i64);
