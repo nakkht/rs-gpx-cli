@@ -14,6 +14,8 @@ Changed
   * chrono -> 0.4.19
 * Re-factored conversion functions
 
+---
+
 ## v0.1.0 - [2020-04-28]
 
 Added
