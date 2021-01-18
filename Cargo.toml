@@ -1,6 +1,6 @@
 [package]
 name = "rs-gpx"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Paulius Gudonis <pg@neqsoft.com>"]
 readme = "README.md"
 repository = "https://github.com/nakkht/rs-gpx-cli"
