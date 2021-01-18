@@ -24,7 +24,6 @@ script:
 _deploy_definition: &deploy_definition
   provider: releases
   token: $GH_TOKEN
-  skip_cleanup: true
   draft: true
   overwrite: true
   on:
