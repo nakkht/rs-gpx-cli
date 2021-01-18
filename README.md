@@ -1,5 +1,5 @@
-# rust-gpx-cli
-[![Build Status](https://travis-ci.com/nakkht/rust-gpx-cli.svg?branch=develop)](https://travis-ci.com/nakkht/rust-gpx-cli)
+# rs-gpx-cli
+[![Build Status](https://travis-ci.com/nakkht/rs-gpx-cli.svg?branch=develop)](https://travis-ci.com/nakkht/rs-gpx-cli)
 
 CLI tool for generating and manipulating gpx files:
 
@@ -27,12 +27,12 @@ cargo install --path ./
 
 ## Usage
 
-* `rust-gpx-cli -i absolute_path_to_source -o absolute_path_to_output -s 50`
-* `rust-gpx-cli -h, --help`
-* `rust-gpx-cli -V, --version`
+* `rs-gpx -i absolute_path_to_source -o absolute_path_to_output -s 50`
+* `rs-gpx -h, --help`
+* `rs-gpx -V, --version`
 
 ## Author
 * [Paulius Gudonis](https://pgu.dev)
 
 ## License
-This repository is under the [MIT license](https://github.com/nakkht/rust-gpx-cli/blob/master/LICENSE).
+This repository is under the [MIT license](https://github.com/nakkht/rs-gpx-cli/blob/master/LICENSE).

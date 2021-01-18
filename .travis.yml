@@ -39,7 +39,7 @@ jobs:
       script: cargo build --release --verbose
       deploy:
         <<: *deploy_definition
-        file: target/release/rust-gpx-cli.exe
+        file: target/release/rs-gpx.exe
 
     - name: Linux binaries
       os: linux
@@ -53,10 +53,10 @@ jobs:
       before_script: rustup target add $TARGET
       script: cargo build --release --target $TARGET --verbose
       before_deploy:
-        - tar czvf rust-gpx-cli.tar.gz target/$TARGET/release/rust-gpx-cli
+        - tar czvf rs-gpx.tar.gz target/$TARGET/release/rs-gpx
       deploy:
         <<: *deploy_definition
-        file: rust-gpx-cli.tar.gz
+        file: rs-gpx.tar.gz
 
     - name: macOS binaries
       env: MACOSX_DEPLOYMENT_TARGET=10.7 TARGET=x86_64-apple-darwin
@@ -65,7 +65,7 @@ jobs:
       script: cargo build --release --target $TARGET --verbose
       deploy:
         <<: *deploy_definition
-        file: target/x86_64-apple-darwin/release/rust-gpx-cli
+        file: target/x86_64-apple-darwin/release/rs-gpx
 
   allow_failures:
     - rust: nightly

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to rust-gpx-cli project.
+All notable changes to rs-gpx-cli project.
 
 ## v0.2.0 - [2020-12-31]
 
