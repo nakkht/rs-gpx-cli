@@ -13,7 +13,7 @@ rust:
 branches:
   - /^v\d+\.\d+\.\d+$/
   - develop
-  - master
+  - main
 
 cache: cargo
 
