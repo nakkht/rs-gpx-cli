@@ -9,5 +9,5 @@ edition = "2018"
 
 [dependencies]
 structopt = "0.3.21"
-quick-xml = "0.20.0"
+quick-xml = "0.22.0"
 chrono = "0.4.19"
