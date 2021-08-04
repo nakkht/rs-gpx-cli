@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop ]
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  LC_CTYPE: en_US.UTF-8
+  LANG: en_US.UTF-8
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo build --release --verbose
