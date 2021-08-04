@@ -29,7 +29,9 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: cargo build --release --verbose
+      - run: |
+          cargo build --release --verbose
+          cargo test --verbose
 
   build-windows:
     runs-on: windows-latest
@@ -47,7 +49,9 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: cargo build --release --verbose
+      - run: |
+          cargo build --release --verbose
+          cargo test --verbose
 
   build-macos:
     runs-on: macos-latest
@@ -65,4 +69,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: cargo build --release --verbose
+      - run: |
+          cargo build --release --verbose
+          cargo test --verbose
