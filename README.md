@@ -1,5 +1,5 @@
 # rs-gpx-cli
-[![Build Status](https://travis-ci.com/nakkht/rs-gpx-cli.svg?branch=develop)](https://travis-ci.com/nakkht/rs-gpx-cli)
+[![build](https://github.com/nakkht/rs-gpx-cli/actions/workflows/build.yml/badge.svg)](https://github.com/nakkht/rs-gpx-cli/actions/workflows/build.yml)
 
 CLI tool for generating and manipulating gpx files:
 
