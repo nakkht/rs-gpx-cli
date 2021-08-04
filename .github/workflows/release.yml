@@ -1,10 +1,9 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 env:
   LC_CTYPE: en_US.UTF-8
@@ -12,26 +11,15 @@ env:
 
 jobs:
   build-ubuntu:
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
-        run: rustup update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
-      - name: Cache
-        uses: actions/cache@v2
+        run: rustup update stable && rustup default stable
+      - uses: actions-rs/toolchain@v1
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-${{ matrix.rust }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          toolchain: stable
       - run: |
           cargo build --release --verbose
           cargo test --verbose
@@ -48,7 +36,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
-        run: rustup update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
+        run: rustup update stable && rustup default stable
       - name: Cache
         uses: actions/cache@v2
         with:
@@ -73,7 +61,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
-        run: rustup update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
+        run: rustup update stable && rustup default stable
       - name: Cache
         uses: actions/cache@v2
         with:
