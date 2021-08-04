@@ -22,3 +22,13 @@ jobs:
         with:
           toolchain: stable
       - run: cargo build --release --verbose
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run: cargo build --release --verbose
