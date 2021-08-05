@@ -24,7 +24,7 @@ jobs:
       - name: Build release
         run: |
           rustup target add ${{ env.TARGET }}
-          cargo build --release --target ${{ env.TARGET }}--verbose
+          cargo build --release --target ${{ env.TARGET }} --verbose
       - name: Tar zip
         run: |
           tar czvf rs-gpx.tar.gz target/${{ env.TARGET }}/release/rs-gpx
