@@ -12,64 +12,60 @@ env:
 jobs:
   build-ubuntu:
     runs-on: ubuntu-latest
+    env: 
+      TARGET=x86_64-unknown-linux-musl
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
+      - name: Install packages
+        run: sudo apt install musl-tools
       - run: |
-          cargo build --release --verbose
-          cargo test --verbose
+          rustup target add $TARGET
+          cargo build --release --target $TARGET --verbose
+      - naem: Tar zip
+        run: |
+          tar czvf rs-gpx.tar.gz target/$TARGET/release/rs-gpx
+      - name: Upload binaries
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.UPLOAD_ARTIFACTS }}
+          draft: true
+          files: rs-gpx.tar.gz
 
   build-windows:
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - name: Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-${{ matrix.rust }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - run: |
           cargo build --release --verbose
-          cargo test --verbose
+      - name: Upload binaries
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.UPLOAD_ARTIFACTS }}
+          draft: true
+          files: target/release/rs-gpx.exe
 
   build-macos:
-    strategy:
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
     runs-on: macos-latest
+    env: 
+      MACOSX_DEPLOYMENT_TARGET=10.7 
+      TARGET=x86_64-apple-darwin
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Build release
+        run: |
+          cargo build --release --target $TARGET --verbose
+      - name: Upload binaries
+        uses: softprops/action-gh-release@v1
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-${{ matrix.rust }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - run: |
-          cargo build --release --verbose
-          cargo test --verbose
+          token: ${{ secrets.UPLOAD_ARTIFACTS }}
+          draft: true
+          files: target/x86_64-apple-darwin/release/rs-gpx
