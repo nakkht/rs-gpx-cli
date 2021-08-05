@@ -54,8 +54,8 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
-    env: 
-      MACOSX_DEPLOYMENT_TARGET=10.7 
+    env:
+      MACOSX_DEPLOYMENT_TARGET=10.7
       TARGET=x86_64-apple-darwin
     steps:
       - name: Checkout
