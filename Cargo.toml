@@ -8,6 +8,6 @@ license = "MIT"
 edition = "2021"
 
 [dependencies]
-structopt = "0.3.25"
+structopt = "0.3.26"
 quick-xml = "0.22.0"
 chrono = "0.4.19"
