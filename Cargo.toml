@@ -7,6 +7,9 @@ repository = "https://github.com/nakkht/rs-gpx-cli"
 license = "MIT"
 edition = "2021"
 
+[profile.release]
+strip = true
+
 [dependencies]
 structopt = "0.3.26"
 quick-xml = "0.22.0"
