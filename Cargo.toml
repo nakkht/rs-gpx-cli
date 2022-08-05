@@ -13,4 +13,4 @@ strip = true
 [dependencies]
 structopt = "0.3.26"
 quick-xml = "0.23.0"
-chrono = "0.4.19"
+chrono = "0.4.20"
